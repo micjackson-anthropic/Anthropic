@@ -65,6 +65,10 @@ The parent POM aggregator (`pom.xml` with `packaging=pom`) declares all three as
 ### TIBCO BW Event Processing
 Timer-triggered starter processes (`TenderAccepted.process`, `TenderUpdated.process`) run on 60-second intervals using global variable substitution (`%%namespace/varName%%`). All config (file paths, EMS URLs, Oracle JDBC strings, iAPI identifiers) is injected at deploy time via per-environment `.prop` files — there is no runtime override mechanism. Shared logic lives in `TMSCommonLib_v2.0.0.projlib` and `main-iapi-bw-0.3.6.projlib` (Macy's internal iAPI framework).
 
+## Code Style
+
+- Always document non-obvious logic changes with comments.
+
 ## Key Gotchas
 
 - **Java version split**: DataHub projects require Java 1.8; Mule 4.11.2 requires Java 17. Confirm `JAVA_HOME` before switching between them.
