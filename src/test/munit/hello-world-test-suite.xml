@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+    <munit:test name="helloWorldFlow_returnsJoyfulJson_withAllFields" description="Verifies the joyful JSON response contains all expected fields and is not null">
+            <munit:behavior>
+                <munit:set-event doc:name="Set Empty Payload for Flow Input">
+                    <munit:payload value='#[{}]'/>
+                </munit:set-event>
+            </munit:behavior>
+            <munit:execution>
+                <flow-ref name="hello-world-flow" doc:name="Execute Hello World Flow"/>
+            </munit:execution>
+            <munit:validation>
+                <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::notNullValue()]" doc:name="Assert Payload Is Not Null"/>
+                <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::greaterThan(0)]" doc:name="Assert Payload Contains Data"/>
+            </munit:validation>
+        </munit:test>
+    
+        <munit:test name="helloWorldFlow_validatesJoyfulContentText" description="Validates all joyful content fields contain exact expected messages with emojis">
+            <munit:behavior>
+                <munit:set-event doc:name="Set Empty Payload for Flow Input">
+                    <munit:payload value='#[{}]'/>
+                </munit:set-event>
+            </munit:behavior>
+            <munit:execution>
+                <flow-ref name="hello-world-flow" doc:name="Execute Hello World Flow"/>
+            </munit:execution>
+            <munit:validation>
+                <munit-tools:assert-equals actual="#[payload.message]" expected="🎉 Hello, Beautiful World! 🌟" doc:name="Assert Message Contains Joyful Content"/>
+                <munit-tools:assert-equals actual="#[payload.greeting]" expected="Welcome to this wonderful moment! ✨" doc:name="Assert Greeting Contains Welcome Message"/>
+                <munit-tools:assert-equals actual="#[payload.mood]" expected="Absolutely fantastic! 😊" doc:name="Assert Mood Is Fantastic"/>
+                <munit-tools:assert-equals actual="#[payload.encouragement]" expected="You're doing amazing! Keep shining! 🌈✨" doc:name="Assert Encouragement Message Is Present"/>
+                <munit-tools:assert-equals actual="#[payload.funFact]" expected="This response was generated with extra joy and sparkles! 🎊" doc:name="Assert Fun Fact Contains Sparkles Message"/>
+            </munit:validation>
+        </munit:test>
+    
+        <munit:test name="helloWorldFlow_validatesDateTimeFormats" description="Ensures timestamp/date fields exist and formattedDate/Time/DateTime are non-empty">
+            <munit:behavior>
+                <munit:set-event doc:name="Set Empty Payload for Flow Input">
+                    <munit:payload value='#[{}]'/>
+                </munit:set-event>
+            </munit:behavior>
+            <munit:execution>
+                <flow-ref name="hello-world-flow" doc:name="Execute Hello World Flow"/>
+            </munit:execution>
+            <munit:validation>
+                <munit-tools:assert-that expression="#[payload.timestamp]" is="#[MunitTools::notNullValue()]" doc:name="Assert Timestamp Is Present"/>
+                <munit-tools:assert-that expression="#[payload.formattedDate]" is="#[MunitTools::notNullValue()]" doc:name="Assert Formatted Date Is Present"/>
+                <munit-tools:assert-that expression="#[payload.formattedTime]" is="#[MunitTools::notNullValue()]" doc:name="Assert Formatted Time Is Present"/>
+                <munit-tools:assert-that expression="#[payload.formattedDateTime]" is="#[MunitTools::notNullValue()]" doc:name="Assert Formatted DateTime Is Present"/>
+                <munit-tools:assert-that expression="#[payload.dayOfWeek]" is="#[MunitTools::notNullValue()]" doc:name="Assert Day of Week Is Present"/>
+            </munit:validation>
+        </munit:test>
+    
+        <munit:test name="helloWorldFlow_responseStructure_hasExactlyTenFields" description="Asserts the JSON object has exactly 10 fields and is a JSON object">
+            <munit:behavior>
+                <munit:set-event doc:name="Set Empty Payload for Flow Input">
+                    <munit:payload value='#[{}]'/>
+                </munit:set-event>
+            </munit:behavior>
+            <munit:execution>
+                <flow-ref name="hello-world-flow" doc:name="Execute Hello World Flow"/>
+            </munit:execution>
+            <munit:validation>
+                <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::notNullValue()]" doc:name="Assert Response Is Not Null"/>
+                <munit-tools:assert-equals actual="#[sizeOf(payload)]" expected="10" doc:name="Assert Response Has Exactly 10 Fields"/>
+            </munit:validation>
+        </munit:test>
+</mule>

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "PowerShell(claude mcp add playwright npx @playwright/mcp@latest)",
+      "PowerShell(Test-Path \"$env:USERPROFILE\\\\.claude.json\"; Test-Path \"$env:USERPROFILE\\\\.claude\\\\settings.json\"; Test-Path \"$env:APPDATA\\\\Claude\\\\settings.json\")",
+      "PowerShell(node --version 2>$null)",
+      "PowerShell(npm --version 2>$null)",
+      "PowerShell(npx --version 2>$null)",
+      "PowerShell(winget --version)",
+      "PowerShell(winget install OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements --silent)",
+      "PowerShell($url = \"https://nodejs.org/dist/v22.15.0/node-v22.15.0-win-x64.zip\"; $dest = \"$env:USERPROFILE\\\\AppData\\\\Local\\\\Programs\\\\nodejs.zip\"; $dir = \"$env:USERPROFILE\\\\AppData\\\\Local\\\\Programs\"; New-Item -ItemType Directory -Force -Path $dir | Out-Null; Invoke-WebRequest -Uri $url -OutFile $dest -UseBasicParsing; Write-Host \"Downloaded to $dest\")",
+      "PowerShell($env:PATH = \"$env:USERPROFILE\\\\AppData\\\\Local\\\\Programs\\\\nodejs;$env:PATH\"; node --version; npm --version; npx --version)",
+      "PowerShell(java -version 2>&1)",
+      "PowerShell(javac -version 2>&1)"
+    ]
+  },
+  "enabledMcpjsonServers": ["playwright"]
+}
